@@ -1,0 +1,35 @@
+import ili9342c
+import vga1_bold_16x16 as font
+import random
+
+# Display-Initialisierung
+tft = ili9342c.ILI9342C(miso=19, mosi=23, clk=18, cs=14, dc=27, rst=33, rotation=0)
+tft.init()
+tft.fill(ili9342c.WHITE)
+
+# Anzahl der Reihen und Spalten
+m = 4
+n = 3
+
+# Größe eines Farbfelds
+width = tft.width() // n
+height = tft.height() // m
+
+# Zeichne Farbfelder
+for row in range(m):
+    for col in range(n):
+        # Berechne Farbe
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        color = ili9342c.color565(r, g, b)
+
+        # Zeichne Rechteck mit Rand
+        rect_x = col * width
+        rect_y = row * height
+        tft.rect(rect_x, rect_y, width, height, ili9342c.BLACK)
+        tft.fill_rect(rect_x + 2, rect_y + 2, width - 4, height - 4, color)
+
+# Warte 5 Sekunden bevor das Display ausgeschaltet wird
+time.sleep(5)
+tft.deinit()

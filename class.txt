@@ -1,0 +1,32 @@
+import random
+import ili9342c
+
+class Rechteck:
+    def __init__(self, x, y, breite, hoehe, display):
+        self.x = x
+        self.y = y
+        self.breite = breite
+        self.hoehe = hoehe
+        self.display = display
+        
+    def draw(self):
+        # schwarzer Rahmen
+        self.display.rect(self.x-3, self.y-3, self.breite+6, self.hoehe+6, ili9342c.BLACK)
+        # zufällige Farbe
+        farbe = ili9342c.color565(random.randint(0,255), random.randint(0,255), random.randint(0,255))
+        # inneres Rechteck
+        self.display.fill_rect(self.x, self.y, self.breite, self.hoehe, farbe)
+
+
+
+
+
+
+
+
+
+
+tft = ili9342c.ILI9342C(spi, cs=Pin(15), dc=Pin(2), rst=Pin(0))
+tft.init()
+r = Rechteck(50, 50, 100, 100, tft)
+r.draw()
